@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>AI Mastery Roadmap</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #e0e0e0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* STICKY HEADER */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,15,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 16px 20px;
+}
+.header-inner { max-width: 900px; margin: 0 auto; }
+.header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.header-label { font-size: 11px; color: #a855f7; letter-spacing: 2px; text-transform: uppercase; }
+.header-label span { color: rgba(255,255,255,0.3); letter-spacing: 0; margin-left: 12px; }
+.reset-btn {
+  background: none; border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.4); font-size: 10px; padding: 4px 10px;
+  border-radius: 4px; cursor: pointer;
+}
+.reset-btn:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); }
+
+/* PROGRESS BAR */
+.progress-track {
+  width: 100%; height: 6px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 3px; overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: 3px;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.progress-info { display: flex; justify-content: space-between; margin-top: 6px; font-size: 13px; }
+.progress-pct { font-weight: 700; font-size: 18px; }
+.progress-status { color: rgba(255,255,255,0.3); font-size: 11px; align-self: center; }
+
+/* CONTENT */
+.content { max-width: 900px; margin: 0 auto; padding: 24px 20px 80px; }
+.hero { text-align: center; padding: 40px 0 48px; }
+.hero h1 { font-size: 28px; font-weight: 800; letter-spacing: -1px; line-height: 1.2; }
+@media(min-width:600px) { .hero h1 { font-size: 32px; } }
+.hero p { color: rgba(255,255,255,0.45); font-size: 14px; margin: 8px auto 0; max-width: 560px; line-height: 1.6; }
+
+/* STAGE HEADER */
+.stage { margin-bottom: 12px; }
+.stage-btn {
+  width: 100%; background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; padding: 14px 16px;
+  cursor: pointer; text-align: left; color: inherit;
+  display: flex; align-items: center; gap: 12px;
+  transition: all 0.2s;
+}
+@media(min-width:600px) { .stage-btn { padding: 16px 20px; gap: 16px; } }
+.stage-btn.expanded { background: rgba(168,85,247,0.06); border-color: rgba(168,85,247,0.2); }
+.stage-btn.complete { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.2); }
+.stage-icon { font-size: 24px; }
+@media(min-width:600px) { .stage-icon { font-size: 28px; } }
+.stage-info { flex: 1; min-width: 0; }
+.stage-title-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.stage-title { font-size: 14px; font-weight: 700; }
+@media(min-width:600px) { .stage-title { font-size: 16px; } }
+.badge-complete {
+  font-size: 9px; background: #22c55e; color: #000;
+  padding: 2px 8px; border-radius: 4px; font-weight: 700;
+}
+.stage-sub { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 2px; }
+@media(min-width:600px) { .stage-sub { font-size: 12px; } }
+.stage-progress { text-align: right; min-width: 50px; }
+.stage-count { font-size: 13px; font-weight: 700; }
+.stage-bar { width: 50px; height: 3px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-top: 4px; overflow: hidden; }
+@media(min-width:600px) { .stage-bar { width: 60px; } }
+.stage-bar-fill { height: 100%; border-radius: 2px; transition: width 0.3s; }
+.stage-arrow { font-size: 13px; color: rgba(255,255,255,0.3); transition: transform 0.2s; }
+.stage-arrow.open { transform: rotate(180deg); }
+
+/* EXPANDED */
+.stage-body {
+  border-left: 2px solid rgba(168,85,247,0.15);
+  margin-left: 24px; margin-top: 8px;
+  padding-left: 16px; padding-bottom: 8px;
+}
+@media(min-width:600px) { .stage-body { margin-left: 32px; padding-left: 20px; } }
+.stage-body.complete { border-left-color: rgba(34,197,94,0.2); }
+.stage-desc { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 16px; }
+
+/* ITEM CARD */
+.item {
+  display: flex; gap: 10px;
+  padding: 12px 12px; margin-bottom: 6px;
+  border-radius: 8px; transition: all 0.2s;
+}
+@media(min-width:600px) { .item { gap: 12px; padding: 12px 14px; } }
+.item.done { opacity: 0.55; }
+
+/* CHECKBOX */
+.checkbox {
+  width: 22px; height: 22px; min-width: 22px;
+  border-radius: 6px; border: 2px solid rgba(255,255,255,0.15);
+  background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  margin-top: 2px; padding: 0; transition: all 0.15s;
+  color: #000; font-size: 12px; font-weight: 900;
+}
+.checkbox.checked { background: #22c55e; border-color: #22c55e; }
+
+.item-body { flex: 1; min-width: 0; }
+.item-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.item-type { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+.item-time { font-size: 10px; color: rgba(255,255,255,0.25); }
+.item-title { font-size: 13px; font-weight: 600; margin-top: 4px; line-height: 1.4; }
+@media(min-width:600px) { .item-title { font-size: 14px; } }
+.item-title.done { text-decoration: line-through; color: rgba(255,255,255,0.5); }
+.item-title a {
+  color: inherit; text-decoration: none;
+  border-bottom: 1px dashed rgba(255,255,255,0.2);
+}
+.item-title a:hover { border-bottom-style: solid; }
+.item-desc { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 4px; line-height: 1.6; }
+
+.footer {
+  text-align: center; padding: 48px 0 24px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: 32px;
+}
+.footer p { font-size: 12px; color: rgba(255,255,255,0.25); line-height: 1.8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="header-top">
+      <div>
+        <span class="header-label mono">AI MASTERY ROADMAP<span id="counter"></span></span>
+      </div>
+      <button class="reset-btn mono" onclick="resetProgress()">RESET</button>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="progress-info">
+      <span class="progress-pct mono" id="progressPct">0%</span>
+      <span class="progress-status mono" id="progressStatus">GETTING STARTED</span>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+  <div class="hero">
+    <h1>From Zero to AI Expert</h1>
+    <p>A verified, practical roadmap tailored for builders — not researchers. Every link works. Every resource is free. Check off items as you go.</p>
+  </div>
+  <div id="stages"></div>
+  <div class="footer">
+    <p>Built for Josh · All resources verified &amp; free · Progress saves automatically<br>Last updated: March 2026</p>
+  </div>
+</div>
+
+<script>
+const STAGES=[{id:"stage-1",title:"AI Foundations & Mental Models",subtitle:"What AI actually is, how it thinks, and why it matters",timeEstimate:"1–2 weeks",icon:"🧠",description:"Before touching code or hardware, you need a rock-solid mental model of what AI is and isn't. This stage gives you the conceptual vocabulary to understand everything that follows — and filters out the hype.",items:[{id:"1-1",type:"course",title:"Elements of AI — University of Helsinki",desc:"Best non-technical AI intro on the internet. Covers what AI is, probability, ML types, neural nets, societal impact. Free, self-paced, ~30 hours.",url:"https://course.elementsofai.com/",time:"30 hrs"},{id:"1-2",type:"course",title:"Google — Introduction to Generative AI",desc:"Quick 1-hour overview of what generative AI is, how LLMs work, and Google's approach. Good for framing the current landscape.",url:"https://www.cloudskillsboost.google/course_templates/536",time:"1 hr"},{id:"1-3",type:"video",title:"3Blue1Brown — Neural Networks playlist",desc:"The single best visual explanation of how neural networks work. Covers neurons, gradient descent, backpropagation, transformers, and attention. Watch all of them.",url:"https://www.3blue1brown.com/topics/neural-networks",time:"3 hrs"},{id:"1-4",type:"video",title:"Andrej Karpathy — Intro to Large Language Models",desc:"1-hour talk from one of the field's top minds. Explains LLMs, how they're trained, what they can/can't do, and where things are going. Essential context.",url:"https://www.youtube.com/watch?v=zjkBMFhNj_g",time:"1 hr"},{id:"1-5",type:"read",title:"DeepLearning.AI — AI For Everyone (Andrew Ng)",desc:"Non-technical course covering what AI can do, how to build AI projects, and how to build an AI company. Great for the business operator perspective.",url:"https://www.coursera.org/learn/ai-for-everyone",time:"6 hrs"},{id:"1-6",type:"milestone",title:"✦ MILESTONE: Write a 1-page summary",desc:"In your own words, explain: what AI is, what ML is, what deep learning is, what an LLM is, and what a neural network does. If you can explain these clearly to a coworker, you've got the foundation."}]},{id:"stage-2",title:"Hardware & Infrastructure",subtitle:"CPUs, GPUs, RAM, cloud compute — why AI needs serious iron",timeEstimate:"1–2 weeks",icon:"⚙️",description:"Understand why AI can't run on your laptop's CPU alone, what GPUs actually do differently, and how cloud infrastructure (like Google Colab) gives you free access to serious compute.",items:[{id:"2-1",type:"video",title:"NVIDIA — How GPUs Power AI",desc:"Short explainer from the company that makes the chips. Covers why parallel processing matters for matrix math in neural nets.",url:"https://www.nvidia.com/en-us/ai-data-science/",time:"30 min"},{id:"2-2",type:"course",title:"NVIDIA DLI — Free GPU Courses",desc:"Free self-paced courses covering GPU-accelerated computing, CUDA basics, and cloud GPU access. Pick 1–2 that interest you.",url:"https://www.nvidia.com/en-us/training/online/",time:"2–4 hrs"},{id:"2-3",type:"hands-on",title:"Set up Google Colab and run GPU code",desc:"Open Google Colab (free), create a notebook, switch runtime to GPU, and run a simple matrix multiplication comparing CPU vs GPU speed. Feel the difference.",url:"https://colab.research.google.com/",time:"1 hr"},{id:"2-4",type:"read",title:"How AI Chips Work — Visual Explainer",desc:"Understand the difference between CPUs, GPUs, TPUs, and NPUs. Know which companies make what and why it matters for AI cost and performance.",url:"https://www.geeksforgeeks.org/ai-chips/",time:"30 min"},{id:"2-5",type:"milestone",title:"✦ MILESTONE: Run your first GPU notebook",desc:"Successfully execute a Python script in Google Colab using a GPU runtime. You should be able to explain why GPUs are faster for AI workloads."}]},{id:"stage-3",title:"Python & Programming for AI",subtitle:"The language AI speaks — get fluent enough to build",timeEstimate:"3–5 weeks",icon:"🐍",description:"Python is the universal language of AI. You don't need to be a software engineer, but you need to be comfortable reading, writing, and debugging Python code — especially with NumPy, Pandas, and Jupyter notebooks.",items:[{id:"3-1",type:"course",title:"Python for Everybody — University of Michigan (Coursera)",desc:"Free to audit. The gold standard intro Python course. Covers variables, loops, functions, data structures, file handling. Start here if you're new to coding.",url:"https://www.coursera.org/specializations/python",time:"8 weeks"},{id:"3-2",type:"course",title:"freeCodeCamp — Scientific Computing with Python",desc:"Interactive, free. Good alternative or supplement if you prefer learn-by-doing over video lectures.",url:"https://www.freecodecamp.org/learn/scientific-computing-with-python/",time:"~40 hrs"},{id:"3-3",type:"course",title:"Kaggle Learn — Intro to Python + Pandas",desc:"Bite-sized, free coding exercises in the browser. Perfect for getting comfortable with data manipulation.",url:"https://www.kaggle.com/learn",time:"~10 hrs"},{id:"3-4",type:"video",title:"Corey Schafer — Python Tutorials (YouTube)",desc:"Clean, well-organized Python tutorials. Great reference for specific topics like list comprehensions, OOP, file I/O.",url:"https://www.youtube.com/c/Coreyms",time:"pick & choose"},{id:"3-5",type:"hands-on",title:"Build a data cleaning script",desc:"Using Pandas in a Colab notebook, load a messy CSV from Kaggle, clean it up, and generate summary statistics.",url:"https://www.kaggle.com/datasets",time:"2–3 hrs"},{id:"3-6",type:"milestone",title:"✦ MILESTONE: Comfortable writing Python from scratch",desc:"You should be able to write a Python script that loads data, loops through it, applies logic, and outputs results — without copy-pasting everything."}]},{id:"stage-4",title:"Machine Learning Fundamentals",subtitle:"Train your first models — regression, classification, evaluation",timeEstimate:"4–6 weeks",icon:"📊",description:"This is where the real AI education begins. You'll learn how models learn from data, the difference between supervised and unsupervised learning, and how to evaluate whether a model is actually good.",items:[{id:"4-1",type:"course",title:"Andrew Ng — Machine Learning Specialization (Coursera)",desc:"The single most important ML course in existence. 3-course series: regression, neural nets, unsupervised learning, recommenders. Free to audit.",url:"https://www.coursera.org/specializations/machine-learning-introduction",time:"10 weeks"},{id:"4-2",type:"video",title:"StatQuest with Josh Starmer — ML Playlist",desc:"Entertaining, crystal-clear explanations of ML algorithms. Great supplement when Ng's lectures feel dense.",url:"https://www.youtube.com/c/joshstarmer",time:"pick & choose"},{id:"4-3",type:"video",title:"3Blue1Brown — Essence of Linear Algebra",desc:"Visual intuition for vectors, matrices, and transformations — the math that powers every model.",url:"https://www.3blue1brown.com/topics/linear-algebra",time:"3 hrs"},{id:"4-4",type:"hands-on",title:"Build a classification model with scikit-learn",desc:"Using a Kaggle dataset, build a model that predicts something. Train it, evaluate accuracy, precision, recall.",url:"https://scikit-learn.org/stable/tutorial/",time:"3–5 hrs"},{id:"4-5",type:"read",title:"Kaggle — Intro to Machine Learning micro-course",desc:"Hands-on, guided exercises building real models with real data. Covers decision trees, random forests, model validation.",url:"https://www.kaggle.com/learn/intro-to-machine-learning",time:"4 hrs"},{id:"4-6",type:"milestone",title:"✦ MILESTONE: Train and evaluate a model end-to-end",desc:"Take a dataset, prepare it, train a model, evaluate its performance, and explain why you chose the approach."}]},{id:"stage-5",title:"Deep Learning & Neural Networks",subtitle:"Build neural nets, understand transformers, train with PyTorch",timeEstimate:"5–8 weeks",icon:"🔬",description:"Go deeper into neural network architectures — how they're designed, trained, and optimized. This stage takes you from 'I know what a neural net is' to 'I can build one and understand why it works.'",items:[{id:"5-1",type:"course",title:"Andrej Karpathy — Neural Networks: Zero to Hero",desc:"Build neural networks from scratch in pure Python. Goes from backpropagation to building GPT. The best deep learning course available. Free on YouTube.",url:"https://karpathy.ai/zero-to-hero.html",time:"~25 hrs"},{id:"5-2",type:"course",title:"fast.ai — Practical Deep Learning for Coders",desc:"Top-down approach: start building state-of-the-art models from day 1, then learn how they work. 9 lessons, free.",url:"https://course.fast.ai/",time:"~25 hrs"},{id:"5-3",type:"course",title:"Andrew Ng — Deep Learning Specialization (Coursera)",desc:"5-course sequence covering neural nets, optimization, CNNs, sequence models. Free to audit. Dense but thorough.",url:"https://www.coursera.org/specializations/deep-learning",time:"3 months"},{id:"5-4",type:"read",title:"Neural Networks and Deep Learning — Michael Nielsen (free book)",desc:"Beautiful free online textbook. Explains backpropagation with interactive visualizations.",url:"http://neuralnetworksanddeeplearning.com/",time:"self-paced"},{id:"5-5",type:"paper",title:"📄 Attention Is All You Need (2017)",desc:"The paper that created the transformer architecture behind GPT, Claude, and every modern LLM. Read it after Karpathy's 'Let's build GPT' video.",url:"https://arxiv.org/abs/1706.03762",time:"2 hrs"},{id:"5-6",type:"hands-on",title:"Train an image classifier and a text model",desc:"Using fast.ai or PyTorch, train a model that classifies images and a simple text model. Deploy one using Gradio or HuggingFace Spaces.",url:"https://huggingface.co/spaces",time:"5–8 hrs"},{id:"5-7",type:"milestone",title:"✦ MILESTONE: Explain transformers and build a neural net",desc:"Explain how transformers work (attention, embeddings, layers) and have built at least one neural network from scratch or with a framework."}]},{id:"stage-6",title:"Prompt Engineering & LLM Mastery",subtitle:"The practical skill that makes everything else useful",timeEstimate:"2–3 weeks",icon:"💬",description:"This is the bridge between understanding AI and using AI. Prompt engineering is the #1 skill for anyone working with LLMs — it's how you get AI to actually do what you need.",items:[{id:"6-1",type:"course",title:"DeepLearning.AI — ChatGPT Prompt Engineering for Developers",desc:"Taught by Andrew Ng + OpenAI's Isa Fulford. System prompts, few-shot examples, chain-of-thought, structured output. 90 minutes, free, essential.",url:"https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/",time:"1.5 hrs"},{id:"6-2",type:"read",title:"Anthropic — Prompt Engineering Guide",desc:"Claude's official prompting documentation. Covers system prompts, XML tags, multi-shot examples, chain-of-thought.",url:"https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview",time:"2–3 hrs"},{id:"6-3",type:"read",title:"Prompt Engineering Guide — DAIR.AI",desc:"Comprehensive open-source guide covering all major techniques: zero-shot, few-shot, CoT, ReAct, tree-of-thought.",url:"https://www.promptingguide.ai/",time:"3–4 hrs"},{id:"6-4",type:"read",title:"Learn Prompting — Open-source textbook",desc:"Free interactive textbook covering beginner to advanced prompting. Good for structured learning.",url:"https://learnprompting.org/",time:"self-paced"},{id:"6-5",type:"hands-on",title:"Build 5 system prompts for your company",desc:"Write system prompts for: SOP lookup, equipment troubleshooting, new hire Q&A, compliance checks, and process improvement suggestions."},{id:"6-6",type:"milestone",title:"✦ MILESTONE: Write production-quality prompts",desc:"Write structured system prompts that reliably get the output you need. Understand temperature, context windows, and token limits."}]},{id:"stage-7",title:"RAG, Embeddings & Vector Databases",subtitle:"Give AI access to your company's knowledge",timeEstimate:"3–5 weeks",icon:"🗄️",description:"Retrieval-Augmented Generation (RAG) is the exact technology behind your knowledge base — an AI that can search your SOPs and documents and answer questions from them.",items:[{id:"7-1",type:"course",title:"DeepLearning.AI — Retrieval Augmented Generation (RAG)",desc:"Comprehensive free course on building production RAG systems. Covers vector databases, chunking, retrieval strategies, and evaluation.",url:"https://learn.deeplearning.ai/courses/retrieval-augmented-generation/",time:"5 hrs"},{id:"7-2",type:"course",title:"DeepLearning.AI — LangChain for LLM Application Development",desc:"Build LLM apps with LangChain. Chains, memory, agents, tools. Taught by Harrison Chase (LangChain founder). Free.",url:"https://www.deeplearning.ai/short-courses/langchain-for-llm-application-development/",time:"1.5 hrs"},{id:"7-3",type:"course",title:"IBM — Fundamentals of AI Agents Using RAG and LangChain (Coursera)",desc:"8-hour course covering RAG process, FAISS vector search, LangChain components. Free to audit.",url:"https://www.coursera.org/learn/fundamentals-of-ai-agents-using-rag-and-langchain",time:"8 hrs"},{id:"7-4",type:"read",title:"Hugging Face — NLP Course (Embeddings & Transformers)",desc:"Free course covering tokenization, embeddings, and how transformer models process text.",url:"https://huggingface.co/learn/nlp-course",time:"self-paced"},{id:"7-5",type:"read",title:"Pinecone — What is a Vector Database?",desc:"Clear explainer of vector databases, embeddings, similarity search.",url:"https://www.pinecone.io/learn/vector-database/",time:"1 hr"},{id:"7-6",type:"hands-on",title:"Build a RAG system over your SOPs",desc:"Take 5-10 of your company documents, chunk them, embed them, store in a vector DB (FAISS or Pinecone), and build a retrieval pipeline."},{id:"7-7",type:"milestone",title:"✦ MILESTONE: Working RAG prototype with your documents",desc:"A functional system that takes a question, retrieves relevant document chunks, and generates a grounded answer."}]},{id:"stage-8",title:"Building AI Agents",subtitle:"Autonomous systems that reason, plan, and use tools",timeEstimate:"4–6 weeks",icon:"🤖",description:"AI agents go beyond simple Q&A — they can plan multi-step actions, call APIs, use tools, and collaborate with other agents.",items:[{id:"8-1",type:"course",title:"DeepLearning.AI — AI Agentic Design Patterns with AutoGen",desc:"Covers the 4 key agentic patterns: reflection, tool use, planning, multi-agent collaboration. Free, 1.5 hours.",url:"https://www.deeplearning.ai/short-courses/ai-agentic-design-patterns-with-autogen/",time:"1.5 hrs"},{id:"8-2",type:"course",title:"LangChain Academy — Intro to LangGraph (Free)",desc:"Official LangChain course on building agents with LangGraph. Covers nodes, edges, state, conditional routing.",url:"https://academy.langchain.com/",time:"self-paced"},{id:"8-3",type:"course",title:"IBM — Agentic AI with LangChain and LangGraph (Coursera)",desc:"Build stateful agents, self-improving agents (Reflection, Reflexion, ReAct), and multi-agent systems. Free to audit.",url:"https://www.coursera.org/learn/agentic-ai-with-langchain-and-langgraph",time:"3 weeks"},{id:"8-4",type:"read",title:"LangChain Documentation — Agents",desc:"Official docs for building agents. Reference material for tool-calling, memory, agent types.",url:"https://python.langchain.com/docs/concepts/agents/",time:"reference"},{id:"8-5",type:"read",title:"CrewAI Documentation",desc:"Open-source framework for multi-agent collaboration with specialized agent roles.",url:"https://docs.crewai.com/",time:"reference"},{id:"8-6",type:"paper",title:"📄 ReAct: Synergizing Reasoning and Acting in LLMs",desc:"The foundational paper for modern AI agents. Describes the reasoning + acting loop most frameworks are built on.",url:"https://arxiv.org/abs/2210.03629",time:"1.5 hrs"},{id:"8-7",type:"hands-on",title:"Build a multi-tool agent for your company",desc:"Build an agent that can search your SOPs (RAG), look up equipment specs, check compliance requirements, and generate reports."},{id:"8-8",type:"milestone",title:"✦ MILESTONE: Working AI agent with tools",desc:"An agent that can reason about a question, decide which tools to use, retrieve information, and synthesize a useful answer."}]},{id:"stage-9",title:"Production, Evaluation & Deployment",subtitle:"Make it real — eval, monitor, scale, and ship",timeEstimate:"3–4 weeks",icon:"🚀",description:"Building a demo is stage 1. Making it reliable, evaluable, and deployable is what separates toy projects from real systems.",items:[{id:"9-1",type:"course",title:"DeepLearning.AI — Building and Evaluating Advanced RAG",desc:"Goes beyond basic RAG into query routing, re-ranking, evaluation metrics. Free.",url:"https://www.deeplearning.ai/short-courses/building-evaluating-advanced-rag/",time:"1.5 hrs"},{id:"9-2",type:"course",title:"DeepLearning.AI — Building Applications with Vector Databases",desc:"Production patterns for vector DBs. Covers hybrid search, metadata filtering, scaling. Free.",url:"https://www.deeplearning.ai/short-courses/building-applications-vector-databases/",time:"1.5 hrs"},{id:"9-3",type:"read",title:"Anthropic — Claude API Documentation",desc:"Full reference for building with Claude. API calls, system prompts, tool use, streaming.",url:"https://docs.anthropic.com/en/docs/",time:"reference"},{id:"9-4",type:"read",title:"Papers with Code — Latest implementations",desc:"Find latest AI research papers with working code. Great for staying current.",url:"https://paperswithcode.com/",time:"ongoing"},{id:"9-5",type:"hands-on",title:"Evaluate your RAG system with metrics",desc:"Measure retrieval accuracy, answer faithfulness, and response relevance. Identify failure modes and fix them."},{id:"9-6",type:"milestone",title:"✦ MILESTONE: Production-ready AI system",desc:"A deployed, evaluated system with monitoring. You know how to measure if it's working and improve it when it isn't."}]},{id:"stage-10",title:"Expert Level — Future & Research",subtitle:"Stay ahead of the curve, contribute, and lead",timeEstimate:"Ongoing",icon:"🔮",description:"Expertise isn't a destination — it's a practice. This stage keeps you at the frontier: reading papers, understanding trends, and building increasingly ambitious systems.",items:[{id:"10-1",type:"read",title:"arXiv — AI section (daily papers)",desc:"The primary source for new AI research. Subscribe to the daily digest.",url:"https://arxiv.org/list/cs.AI/recent",time:"ongoing"},{id:"10-2",type:"video",title:"Two Minute Papers (YouTube)",desc:"Bite-sized summaries of the latest research papers.",url:"https://www.youtube.com/@TwoMinutePapers",time:"ongoing"},{id:"10-3",type:"video",title:"Lex Fridman Podcast — AI episodes",desc:"Long-form interviews with AI leaders (Karpathy, Altman, LeCun, Hinton, etc).",url:"https://lexfridman.com/podcast/",time:"pick & choose"},{id:"10-4",type:"read",title:"Simon Willison's Blog",desc:"One of the best practical AI blogs. Covers new models, tools, and techniques with a builder's perspective.",url:"https://simonwillison.net/",time:"ongoing"},{id:"10-5",type:"hands-on",title:"Read a paper and implement it",desc:"Pick a recent paper relevant to your work. Read it, understand it, and implement the key idea."},{id:"10-6",type:"hands-on",title:"Contribute to open-source AI",desc:"Submit a PR to LangChain, CrewAI, or another tool you use. Even documentation improvements count.",url:"https://github.com/langchain-ai/langchain"},{id:"10-7",type:"hands-on",title:"Build your portfolio — 5+ AI projects on GitHub",desc:"Your knowledge base agent, a RAG system, a multi-agent workflow, a fine-tuned model, and a novel application.",url:"https://github.com/"},{id:"10-8",type:"milestone",title:"✦ MILESTONE: You're an AI expert",desc:"You can design AI systems from scratch, evaluate architectures, read papers fluently, build agents for real use cases, and teach others."}]}];
+
+const TYPE_COLORS={course:{bg:"rgba(59,130,246,0.12)",border:"#3b82f6",label:"COURSE",icon:"📚"},video:{bg:"rgba(168,85,247,0.12)",border:"#a855f7",label:"VIDEO",icon:"🎬"},read:{bg:"rgba(34,197,94,0.12)",border:"#22c55e",label:"READ",icon:"📖"},paper:{bg:"rgba(251,146,60,0.12)",border:"#fb923c",label:"PAPER",icon:"📄"},"hands-on":{bg:"rgba(236,72,153,0.12)",border:"#ec4899",label:"HANDS-ON",icon:"🛠️"},milestone:{bg:"rgba(250,204,21,0.08)",border:"#facc15",label:"MILESTONE",icon:"⭐"}};
+
+let completed = {};
+let expandedStage = "stage-1";
+
+function loadProgress() {
+  try { completed = JSON.parse(localStorage.getItem("ai-roadmap-progress") || "{}"); } catch(e) { completed = {}; }
+}
+function saveProgress() {
+  localStorage.setItem("ai-roadmap-progress", JSON.stringify(completed));
+}
+function resetProgress() {
+  if (!confirm("Reset all progress? This can't be undone.")) return;
+  completed = {};
+  saveProgress();
+  render();
+}
+
+function toggleItem(id) {
+  completed[id] = !completed[id];
+  if (!completed[id]) delete completed[id];
+  saveProgress();
+  render();
+}
+
+function toggleStage(id) {
+  expandedStage = expandedStage === id ? null : id;
+  render();
+}
+
+function getStats() {
+  let total = 0;
+  STAGES.forEach(s => total += s.items.length);
+  const done = Object.values(completed).filter(Boolean).length;
+  return { total, done, pct: total > 0 ? Math.round((done / total) * 100) : 0 };
+}
+
+function getStageStats(stage) {
+  const done = stage.items.filter(i => completed[i.id]).length;
+  return { done, total: stage.items.length, pct: Math.round((done / stage.items.length) * 100) };
+}
+
+function render() {
+  const stats = getStats();
+
+  // Header
+  document.getElementById("counter").textContent = ` ${stats.done}/${stats.total} completed`;
+  const fill = document.getElementById("progressFill");
+  fill.style.width = stats.pct + "%";
+  fill.style.background = stats.pct === 100 ? "linear-gradient(90deg,#22c55e,#10b981)" : "linear-gradient(90deg,#a855f7,#6366f1)";
+
+  const pctEl = document.getElementById("progressPct");
+  pctEl.textContent = stats.pct + "%";
+  pctEl.style.color = stats.pct === 100 ? "#22c55e" : "#a855f7";
+
+  const statusEl = document.getElementById("progressStatus");
+  statusEl.textContent = stats.pct === 100 ? "🎉 EXPERT STATUS UNLOCKED" : stats.pct >= 70 ? "ADVANCED PRACTITIONER" : stats.pct >= 40 ? "BUILDING MOMENTUM" : "GETTING STARTED";
+
+  // Stages
+  const container = document.getElementById("stages");
+  let html = "";
+
+  STAGES.forEach(stage => {
+    const sp = getStageStats(stage);
+    const isExpanded = expandedStage === stage.id;
+    const isComplete = sp.pct === 100;
+
+    let btnClass = "stage-btn";
+    if (isComplete) btnClass += " complete";
+    else if (isExpanded) btnClass += " expanded";
+
+    const countColor = isComplete ? "#22c55e" : "#a855f7";
+    const barColor = isComplete ? "#22c55e" : "#a855f7";
+
+    html += `<div class="stage">
+      <button class="${btnClass}" onclick="toggleStage('${stage.id}')">
+        <span class="stage-icon">${stage.icon}</span>
+        <div class="stage-info">
+          <div class="stage-title-row">
+            <span class="stage-title">${stage.title}</span>
+            ${isComplete ? '<span class="badge-complete mono">COMPLETE</span>' : ''}
+          </div>
+          <div class="stage-sub">${stage.subtitle} · <span class="mono">${stage.timeEstimate}</span></div>
+        </div>
+        <div class="stage-progress">
+          <div class="stage-count mono" style="color:${countColor}">${sp.done}/${sp.total}</div>
+          <div class="stage-bar"><div class="stage-bar-fill" style="width:${sp.pct}%;background:${barColor}"></div></div>
+        </div>
+        <span class="stage-arrow ${isExpanded ? 'open' : ''}">▼</span>
+      </button>`;
+
+    if (isExpanded) {
+      html += `<div class="stage-body ${isComplete ? 'complete' : ''}">
+        <p class="stage-desc">${stage.description}</p>`;
+
+      stage.items.forEach(item => {
+        const t = TYPE_COLORS[item.type] || TYPE_COLORS.read;
+        const isDone = !!completed[item.id];
+
+        const itemBg = isDone ? "rgba(34,197,94,0.04)" : t.bg;
+        const itemBorder = isDone ? "rgba(34,197,94,0.15)" : t.border + "22";
+
+        let titleHtml;
+        if (item.url) {
+          titleHtml = `<a href="${item.url}" target="_blank" rel="noopener noreferrer" style="border-bottom-color:${t.border}66">${item.title} ↗</a>`;
+        } else {
+          titleHtml = item.title;
+        }
+
+        html += `<div class="item ${isDone ? 'done' : ''}" style="background:${itemBg};border:1px solid ${itemBorder}">
+          <button class="checkbox ${isDone ? 'checked' : ''}" style="border-color:${isDone ? '#22c55e' : t.border + '44'}" onclick="event.stopPropagation();toggleItem('${item.id}')">${isDone ? '✓' : ''}</button>
+          <div class="item-body">
+            <div class="item-meta">
+              <span class="item-type mono" style="color:${t.border}">${t.icon} ${t.label}</span>
+              ${item.time ? `<span class="item-time mono">${item.time}</span>` : ''}
+            </div>
+            <div class="item-title ${isDone ? 'done' : ''}">${titleHtml}</div>
+            ${item.desc ? `<p class="item-desc">${item.desc}</p>` : ''}
+          </div>
+        </div>`;
+      });
+
+      html += `</div>`;
+    }
+    html += `</div>`;
+  });
+
+  container.innerHTML = html;
+}
+
+loadProgress();
+render();
+</script>
+</body>
+</html>
